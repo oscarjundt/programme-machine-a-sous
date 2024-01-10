@@ -21,7 +21,7 @@ public class Machine {
     public void start(){
         //System.out.println(Arrays.deepToString(loadMachine()));
         this.afficheResult(this.loadMachine());
-        while (!this.colonne.checkColumn(1)) this.afficheResult(this.loadMachine());
+        while (!this.colonne.checkColumn(2)) this.afficheResult(this.loadMachine());
     }
     private List<List<String>> loadMachine(){
         return this.colonne.loadColumn();
