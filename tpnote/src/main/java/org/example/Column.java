@@ -22,12 +22,13 @@ public class Column {
      */
     public List<List<String>> loadColumn(){
         //initaliser un matrice
+        //cette matrice et les resultat de la machine a sous
         List<List<String>> colomun = new ArrayList<>();
         //fait tourenr les colonne de la machine de maniere aleatoire
         this.c1  = (dataColumnRand(this.JsonColumn[0], new Random().nextInt(this.JsonColumn[0].length)));
         this.c2 = (dataColumnRand(this.JsonColumn[1], new Random().nextInt(this.JsonColumn[1].length)));
         this.c3 = (dataColumnRand(this.JsonColumn[2], new Random().nextInt(this.JsonColumn[2].length)));
-        //remplis la matrice
+        //remplis la matrice et l'envoi a la machine
         colomun.add(c1);
         colomun.add(c2);
         colomun.add(c3);
