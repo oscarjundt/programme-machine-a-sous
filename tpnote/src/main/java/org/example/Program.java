@@ -8,7 +8,7 @@ import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.List;
 
-public class Main {
+public class Program {
     public static void main(String[] args) throws InterruptedException, IOException {
         Machine mach = new Machine();
         mach.start();

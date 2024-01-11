@@ -1,6 +1,7 @@
 package org.example;
 
 import com.google.gson.Gson;
+import org.apache.commons.lang3.StringUtils;
 
 import java.awt.*;
 import java.io.IOException;
@@ -74,7 +75,7 @@ public class Machine {
             choice=Input.next();
             int numberChoice = Integer.parseInt(choice);
             //On check si il peux miser les nombre saisie
-            if(gamer.checkJeton(numberChoice)) {
+            if(gamer.checkJeton(numberChoice) && StringUtils.containsAny(choice, '1', '2', '3')) {
                 //si oui on supprimer le nombre de jeton choisie
                 gamer.suppNbJeton(numberChoice);
                 //le joueur lancer les colonne de la machine
@@ -84,7 +85,12 @@ public class Machine {
                 gamer.jsonConvertState();
             }
             else{
-                System.out.println("Plus d'argent");
+                if(!gamer.checkJeton(numberChoice)) {
+                    System.out.println("Plus d'argent");
+                }
+                else if(!StringUtils.containsAny(choice, '1', '2', '3')){
+                    System.out.println("Erreur de saisi");
+                }
             }
         }
     }
