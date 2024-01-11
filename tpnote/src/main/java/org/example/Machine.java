@@ -2,9 +2,8 @@ package org.example;
 
 import com.google.gson.Gson;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class Machine {
     private Column colonne;
@@ -23,10 +22,33 @@ public class Machine {
      * La fonction start() imprime le résultat du chargement d'une machine et continue de le faire jusqu'à ce qu'une
      * certaine condition soit remplie.
      */
-    public void start(){
-        //System.out.println(Arrays.deepToString(loadMachine()));
-        this.afficheResult(this.loadMachine());
-        while (!this.colonne.checkColumn(2)) this.afficheResult(this.loadMachine());
+    public void start() throws InterruptedException {
+        Gamer gamer = new Gamer();
+        Scanner Input = new Scanner(System.in);
+        String choice="next";
+        //initalisation des colonne a l'alumage de la machine
+        this.loadMachine(0,gamer);
+        //tant que l'utilisateur veux jouer
+        while(!choice.isEmpty()) {
+            //on lui annonce c'est gains
+            System.out.println("Gains : "+gamer.getNbGains());
+            //on lui annonce c'est Jetons
+            System.out.println("Jetons possédés : "+gamer.getNbJeton());
+            //on lui demande de mettre le nombre choisie
+            System.out.print("Combien de jetons ? (1, 2 ou 3) : ");
+            choice=Input.next();
+            int numberChoice = Integer.parseInt(choice);
+            //On check si il peux miser les nombre saisie
+            if(gamer.checkJeton(numberChoice)) {
+                //si oui on supprimer le nombre de jeton choisie
+                gamer.suppNbJeton(numberChoice);
+                //on lance la machine
+                this.loadMachine(numberChoice,gamer);
+            }
+            else{
+                System.out.println("Plus d'argent");
+            }
+        }
     }
     /**
      * La fonction "loadMachine" renvoie une liste de listes de chaînes, obtenue en appelant la méthode "loadColumn" de
@@ -34,15 +56,26 @@ public class Machine {
      *
      * @return Une liste de listes de chaînes est renvoyée.
      */
-    private List<List<String>> loadMachine(){
-        return this.colonne.loadColumn();
+    private void loadMachine(int numberChoice,Gamer gamer){
+        boolean checkColumn = false;
+        do {
+            //il fait tourner les colonne
+            this.afficheResult(this.colonne.loadColumn());
+            //il check si le client a gagner en fonction de ce qu'il a miser
+            checkColumn = this.colonne.checkColumn(numberChoice);
+            //si il a gagenr, on lui annonce qu'il a gagner et on ajout ce qu'il a gagner dans c'est gains
+            if (checkColumn) {
+                System.out.println("Gagner");
+                gamer.addNbGains(this.colonne.checkSymboleColumn(numberChoice));
+            }
+        } while (!checkColumn && numberChoice!=0);
     }
+
     /**
-     * La fonction afficheResult imprime les éléments d'une liste 2D sous forme de tableau puis vérifie une colonne
-     * spécifique.
+     * Affiche les colonne de la machine a sous
      *
-     * @param columnRand Le paramètre `columnRand` est une liste de listes de chaînes. Chaque liste interne représente une
-     * colonne de données et la liste externe représente une collection de colonnes.
+     * @param columnRand Le paramètre `columnRand` est une liste de listes de chaînes. Il représente un tableau dans lequel
+     * chaque liste interne représente une colonne et chaque chaîne représente une valeur dans cette colonne.
      */
     private void afficheResult(List<List<String >> columnRand){
         for(int i=0;i<columnRand.size();i++){
@@ -51,6 +84,6 @@ public class Machine {
             }
             System.out.println();
         }
-        System.out.println(this.colonne.checkColumn(1));
+        System.out.println("\n\n");
     }
 }

@@ -55,6 +55,20 @@ public class Column {
         }
         return statut;
     }
+    public String checkSymboleColumn(int nbjeton){
+        String Symbole = "";
+        if(nbjeton==1){
+            Symbole = this.c1.get(1);
+        }
+        else if(nbjeton==2){
+            for(int i=0;i<3;i++){
+                if(this.c1.get(i).equals(this.c2.get(i)) && this.c1.get(i).equals(this.c3.get(i))){
+                    Symbole=this.c1.get(i);
+                }
+            }
+        }
+        return Symbole;
+    }
     /**
      * La fonction prend un tableau de chaînes et un index, et renvoie une ArrayList contenant trois éléments du tableau à
      * partir de l'index donné.
