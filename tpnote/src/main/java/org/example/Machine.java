@@ -2,13 +2,14 @@ package org.example;
 
 import com.google.gson.Gson;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.*;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class Machine {
     private Column colonne;
-    //private String[][] Matrice;
     // Le constructeur `public Machine()` initialise une nouvelle instance de la classe `Machine`.
     public Machine(){
         Gson gson = new Gson();
@@ -20,21 +21,49 @@ public class Machine {
 
     }
 
+    public void setColonne(Column colonne) {
+        this.colonne = colonne;
+    }
+
     /**
-     * La fonction start() permet à un joueur de jouer à un jeu de machine à sous en saisissant le nombre de jetons à
-     * parier, en vérifiant si le joueur a suffisamment de jetons, puis en exécutant la machine à sous.
+     * La fonction "welcomeInterface" imprime un message de bienvenue sur la console.
+     */
+    private void welcomeInterface(){
+        System.out.println("°º¤ø,¸¸,ø¤º°`°º¤ø,¸,ø¤°º¤ø,¸¸,ø¤º°`");
+        System.out.println("Bienvenue au Casino de Céladopole !");
+        System.out.println("°º¤ø,¸¸,ø¤º°`°º¤ø,¸,ø¤°º¤ø,¸¸,ø¤º°`");
+        System.out.println("\n");
+    }
+
+    /**
+     * La fonction start() initialise un objet Gamer, affiche une interface de bienvenue, charge une machine et affiche un
+     * menu et une interface d'action avec lesquels l'utilisateur peut interagir.
      *
-     * un utilisateur lance la machine
+     * elle lance et initialise la machine a sous
      *
      *
      */
     public void start() throws InterruptedException, IOException {
         Gamer gamer = new Gamer();
+        String choice="next";
+        //initalisation de la machine
+        this.welcomeInterface();
+        this.loadMachine(0,gamer);
+        this.menuAndActionInterface(gamer);
+        //tant que l'utilisateur veux jouer
+
+    }
+    /**
+     * La fonction "menuAndActionInterface" permet à un joueur de choisir le nombre de jetons à miser, vérifie si le joueur
+     * a suffisamment de jetons, soustrait le nombre de jetons choisi du total du joueur, charge la machine avec le nombre
+     * de jetons choisi et convertit le nombre de jetons du joueur. statistiques au format JSON.
+     *
+     *
+     * @param gamer Le paramètre "gamer" est un objet de la classe "Gamer".
+     */
+    private void menuAndActionInterface(Gamer gamer) throws InterruptedException, IOException {
         Scanner Input = new Scanner(System.in);
         String choice="next";
-        //initalisation des colonne a l'alumage de la machine
-        this.loadMachine(0,gamer);
-        //tant que l'utilisateur veux jouer
         while(!choice.isEmpty()) {
             //on lui annonce c'est gains
             System.out.println("Gains : "+gamer.getNbGains());
@@ -67,7 +96,7 @@ public class Machine {
      * @param numberChoice Le numéro choisi par le joueur pour jouer au jeu.
      * @param gamer Le paramètre "gamer" est un objet de la classe "Gamer".
      */
-    private void loadMachine(int numberChoice,Gamer gamer){
+    private void loadMachine(int numberChoice,Gamer gamer) throws InterruptedException {
         boolean checkColumn = false;
         int incr=0;
         do {
@@ -82,11 +111,14 @@ public class Machine {
                 gamer.addNbGains(this.colonne.checkSymboleColumn(numberChoice));
             }
             incr++;
+            if(numberChoice!=0) {
+                TimeUnit.SECONDS.sleep(1);
+            }
         } while (incr<=3 && !checkColumn && numberChoice!=0);
         //tant que les colonne non pas tourner 3 fois et que le joueur n'a pas gagner
         //si les colonne on tourner 5 fois et que le joueur na pas gagner
         // on lui annonce qu'il a perdu
-        if(!checkColumn){
+        if(!checkColumn && numberChoice!=0){
             System.out.println("Perdu");
         }
 
