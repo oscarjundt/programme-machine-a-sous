@@ -23,6 +23,10 @@ public class Machine {
     /**
      * La fonction start() permet à un joueur de jouer à un jeu de machine à sous en saisissant le nombre de jetons à
      * parier, en vérifiant si le joueur a suffisamment de jetons, puis en exécutant la machine à sous.
+     *
+     * un utilisateur lance la machine
+     *
+     *
      */
     public void start() throws InterruptedException, IOException {
         Gamer gamer = new Gamer();
@@ -44,8 +48,10 @@ public class Machine {
             if(gamer.checkJeton(numberChoice)) {
                 //si oui on supprimer le nombre de jeton choisie
                 gamer.suppNbJeton(numberChoice);
-                //on lance la machine
+                //le joueur lancer les colonne de la machine
                 this.loadMachine(numberChoice,gamer);
+                //a la fin du lancement les donnée statistique
+                //du joueur sont envoyer dans un json
                 gamer.jsonConvertState();
             }
             else{
@@ -55,7 +61,8 @@ public class Machine {
     }
     /**
      * La fonction "loadMachine" prend un choix de nombre et un joueur en entrée, et fait tourner les colonnes d'une
-     * machine à sous à plusieurs reprises jusqu'à ce que le joueur gagne, perde ou que les colonnes aient tourné 3 fois.
+     * machine à sous à plusieurs reprises jusqu'à ce que le joueur gagne ou que les colonnes aient tourné 3 fois.
+     *
      *
      * @param numberChoice Le numéro choisi par le joueur pour jouer au jeu.
      * @param gamer Le paramètre "gamer" est un objet de la classe "Gamer".
@@ -92,6 +99,7 @@ public class Machine {
      * chaque liste interne représente une colonne et chaque chaîne représente une valeur dans cette colonne.
      */
     private void afficheResult(List<List<String >> columnRand){
+        //boucle sur les colonne de la machine a sous pour les afficher en console
         for(int i=0;i<columnRand.size();i++){
             for (int j=0;j<columnRand.get(i).size();j++){
                 System.out.print(" | "+columnRand.get(j).get(i)+" | ");
