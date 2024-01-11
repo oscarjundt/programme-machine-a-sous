@@ -21,41 +21,73 @@ public class Column {
      * @return La méthode loadColumn() renvoie une liste de listes de chaînes.
      */
     public List<List<String>> loadColumn(){
+        //initaliser un matrice
         List<List<String>> colomun = new ArrayList<>();
+        //fait tourenr les colonne de la machine de maniere aleatoire
         this.c1  = (dataColumnRand(this.JsonColumn[0], new Random().nextInt(this.JsonColumn[0].length)));
         this.c2 = (dataColumnRand(this.JsonColumn[1], new Random().nextInt(this.JsonColumn[1].length)));
         this.c3 = (dataColumnRand(this.JsonColumn[2], new Random().nextInt(this.JsonColumn[2].length)));
+        //remplis la matrice
         colomun.add(c1);
         colomun.add(c2);
         colomun.add(c3);
         return colomun;
     }
+
     /**
-     * La fonction vérifie si une colonne spécifiée dans une grille 2D contient la même valeur dans toutes ses cellules.
+     * La fonction `checkColumn` vérifie si les colonnes d'un machine a sous ont le même symbole.
+     * si c'est le cas, le joueur a gagner
      *
-     * @param nbJeton Le paramètre nbJeton représente le numéro de colonne à vérifier. Il peut avoir les valeurs 1, 2 ou 3.
-     * @return La méthode renvoie une valeur booléenne, qui indique si une certaine condition est vraie ou fausse.
+     * @param nbJeton Le paramètre nbJeton représente le nombre de lignes pour vérifier la correspondance des symboles.
+     * @return La méthode renvoie une valeur booléenne. Il renvoie vrai si l’une des conditions est remplie, sinon il
+     * renvoie faux.
      */
     public boolean checkColumn(int nbJeton){
         boolean statut = false;
+        //si uniquement la ligne horizontale du milieu
         if(nbJeton==1){
+                //check si la ligne horizontale du milieu a les même symbole
                 if(this.c1.get(1).equals(this.c2.get(1)) && this.c1.get(1).equals(this.c3.get(1))){
                     statut = true;
                 }
         }
+        //si  les 3 lignes horizontales
         else if(nbJeton==2){
+            //check si une des 3 ligne horizontales a les même symbole
             for(int i=0;i<3;i++){
                 if(this.c1.get(i).equals(this.c2.get(i)) && this.c1.get(i).equals(this.c3.get(i))){
                     statut = true;
                 }
             }
         }
+        //si les 3 lignes horizontales + les 2 diagonales
         else if(nbJeton==3){
-            statut = true;
+            //check si une des 3 ligne horizontales a les même symbole
+            for(int i=0;i<3;i++){
+                if(this.c1.get(i).equals(this.c2.get(i)) && this.c1.get(i).equals(this.c3.get(i))){
+                    statut = true;
+                }
+            }
+            //si une des 3 ligne horizontales n'a pas les même symbole
+            if(!statut){
+                //check si une des 2 diagonales a les même symbole
+                if(this.c1.get(0).equals(this.c2.get(1)) && this.c1.get(0).equals(this.c3.get(2)) || this.c1.get(2).equals(this.c2.get(1)) && this.c1.get(2).equals(this.c3.get(0))){
+                    statut = true;
+                }
+            }
         }
+        //return true si une des condition est remplis, sinon false
         return statut;
     }
+    /**
+     * La fonction "checkSymboleColumn" recherche un symbole spécifique dans les colonne d'une machine casino
+     * si le joueur a gagner
+     *
+     * @param nbjeton Le paramètre "nbjeton" représente le nombre de tokens dans une colonne.
+     * @return La méthode renvoie une variable String nommée "Symbole".
+     */
     public String checkSymboleColumn(int nbjeton){
+        //recupere le symbole en fonction du type de mise
         String Symbole = "";
         if(nbjeton==1){
             Symbole = this.c1.get(1);
@@ -64,6 +96,19 @@ public class Column {
             for(int i=0;i<3;i++){
                 if(this.c1.get(i).equals(this.c2.get(i)) && this.c1.get(i).equals(this.c3.get(i))){
                     Symbole=this.c1.get(i);
+                }
+            }
+        }
+        else if(nbjeton==3){
+            for(int i=0;i<3;i++){
+                if(this.c1.get(i).equals(this.c2.get(i)) && this.c1.get(i).equals(this.c3.get(i))){
+                    Symbole=this.c1.get(i);
+                }
+            }
+            if(Symbole.equals("")){
+                //check si une des 2 diagonales a les même symbole
+                if(this.c1.get(0).equals(this.c2.get(1)) && this.c1.get(0).equals(this.c3.get(2)) || this.c1.get(2).equals(this.c2.get(1)) && this.c1.get(2).equals(this.c3.get(0))){
+                    Symbole=this.c1.get(0);
                 }
             }
         }

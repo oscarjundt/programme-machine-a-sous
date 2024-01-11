@@ -2,6 +2,7 @@ package org.example;
 
 import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -18,11 +19,12 @@ public class Machine {
                 "]",String[][].class));
 
     }
+
     /**
-     * La fonction start() imprime le résultat du chargement d'une machine et continue de le faire jusqu'à ce qu'une
-     * certaine condition soit remplie.
+     * La fonction start() permet à un joueur de jouer à un jeu de machine à sous en saisissant le nombre de jetons à
+     * parier, en vérifiant si le joueur a suffisamment de jetons, puis en exécutant la machine à sous.
      */
-    public void start() throws InterruptedException {
+    public void start() throws InterruptedException, IOException {
         Gamer gamer = new Gamer();
         Scanner Input = new Scanner(System.in);
         String choice="next";
@@ -44,6 +46,7 @@ public class Machine {
                 gamer.suppNbJeton(numberChoice);
                 //on lance la machine
                 this.loadMachine(numberChoice,gamer);
+                gamer.jsonConvertState();
             }
             else{
                 System.out.println("Plus d'argent");
@@ -51,13 +54,15 @@ public class Machine {
         }
     }
     /**
-     * La fonction "loadMachine" renvoie une liste de listes de chaînes, obtenue en appelant la méthode "loadColumn" de
-     * l'objet "colonne".
+     * La fonction "loadMachine" prend un choix de nombre et un joueur en entrée, et fait tourner les colonnes d'une
+     * machine à sous à plusieurs reprises jusqu'à ce que le joueur gagne, perde ou que les colonnes aient tourné 3 fois.
      *
-     * @return Une liste de listes de chaînes est renvoyée.
+     * @param numberChoice Le numéro choisi par le joueur pour jouer au jeu.
+     * @param gamer Le paramètre "gamer" est un objet de la classe "Gamer".
      */
     private void loadMachine(int numberChoice,Gamer gamer){
         boolean checkColumn = false;
+        int incr=0;
         do {
             //il fait tourner les colonne
             this.afficheResult(this.colonne.loadColumn());
@@ -66,9 +71,18 @@ public class Machine {
             //si il a gagenr, on lui annonce qu'il a gagner et on ajout ce qu'il a gagner dans c'est gains
             if (checkColumn) {
                 System.out.println("Gagner");
+                //on ajoute ce qu'il a gagner au gains d'avant
                 gamer.addNbGains(this.colonne.checkSymboleColumn(numberChoice));
             }
-        } while (!checkColumn && numberChoice!=0);
+            incr++;
+        } while (incr<=3 && !checkColumn && numberChoice!=0);
+        //tant que les colonne non pas tourner 3 fois et que le joueur n'a pas gagner
+        //si les colonne on tourner 5 fois et que le joueur na pas gagner
+        // on lui annonce qu'il a perdu
+        if(!checkColumn){
+            System.out.println("Perdu");
+        }
+
     }
 
     /**
