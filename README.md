@@ -1,4 +1,4 @@
-<h1>TP de Java POO Noté</h1>
+de<h1>TP de Java POO Noté</h1>
 
 <p>ce programme simule une machine a sous</p>
 
@@ -9,4 +9,4 @@
 </ul>
 
 
-<li>Projet configurer avec Maven</li>
+<string>Projet configurer avec Maven</strong>
