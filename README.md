@@ -1,12 +1,17 @@
-<h1>Machine a Sous</h1>
+# Machine à Sous
 
-<p>ce programme simule une machine a sous</p>
+## Description
 
-<ul>
-  requis : 
-  <li>JDK</li>
-  <li>Intellj</li>
-</ul>
+Ce programme simule une machine à sous.
 
+## Prérequis
 
-<string>Projet configurer avec Maven</strong>
+- **JDK** (Java Development Kit)
+- **IntelliJ IDEA** (ou tout autre IDE compatible avec Java)
+
+## Configuration du projet
+
+Le projet est configuré avec **Maven**.
+
+Assurez-vous d'avoir Maven installé pour gérer les dépendances et la construction du projet. Vous pouvez ouvrir le projet avec IntelliJ IDEA et Maven s'occupera de la configuration automatiquement.
+
