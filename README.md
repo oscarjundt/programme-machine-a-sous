@@ -1,4 +1,4 @@
-de<h1>TP de Java POO Noté</h1>
+<h1>Machine a Sous</h1>
 
 <p>ce programme simule une machine a sous</p>
 
